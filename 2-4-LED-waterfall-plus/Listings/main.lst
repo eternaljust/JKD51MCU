@@ -1,0 +1,63 @@
+C51 COMPILER V9.54   MAIN                                                                  03/14/2024 20:56:20 PAGE 1   
+
+
+C51 COMPILER V9.54, COMPILATION OF MODULE MAIN
+OBJECT MODULE PLACED IN .\Objects\main.obj
+COMPILER INVOKED BY: D:\Keil5C51\C51\BIN\C51.EXE main.c OPTIMIZE(8,SPEED) BROWSE DEBUG OBJECTEXTEND PRINT(.\Listings\mai
+                    -n.lst) TABS(2) OBJECT(.\Objects\main.obj)
+
+line level    source
+
+   1          #include <REGX52.H>
+   2          
+   3          // 延时毫秒
+   4          void Delay1ms(unsigned int xms) { //@12.000MHz
+   5   1        unsigned char data i, j;
+   6   1        while (xms) {
+   7   2          i = 2;
+   8   2          j = 239;
+   9   2          
+  10   2          do {
+  11   3            while (--j);
+  12   3          } while (--i);
+  13   2          
+  14   2          xms --;
+  15   2        }
+  16   1      }
+  17          
+  18          void main() {
+  19   1        // LED 流水灯 plus
+  20   1        while (1) {
+  21   2          P2 = 0xFE; // 1111 1110 -> 只有 D1 LED 灯亮
+  22   2          // 传参数控制间隔时长
+  23   2          Delay1ms(1000);
+  24   2          P2 = 0xFD; // 1111 1101 -> 只有 D2 LED 灯亮
+  25   2          Delay1ms(1000);
+  26   2          P2 = 0xFB; // 1111 1011 -> 只有 D3 LED 灯亮
+  27   2          Delay1ms(100);
+  28   2          P2 = 0xF7; // 1111 0111 -> 只有 D4 LED 灯亮
+  29   2          Delay1ms(100);
+  30   2          P2 = 0xEF; // 1110 1111 -> 只有 D5 LED 灯亮
+  31   2          Delay1ms(100); 
+  32   2          P2 = 0xDF; // 1101 1111 -> 只有 D6 LED 灯亮
+  33   2          Delay1ms(100);
+  34   2          P2 = 0xBF; // 1011 1111 -> 只有 D7 LED 灯亮
+  35   2          Delay1ms(100); 
+  36   2          P2 = 0x7F; // 0111 1111 -> 只有 D8 LED 灯亮
+  37   2          Delay1ms(100);
+  38   2        }
+  39   1      }
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =     82    ----
+   CONSTANT SIZE    =   ----    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =   ----    ----
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)

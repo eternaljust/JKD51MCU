@@ -1,0 +1,57 @@
+C51 COMPILER V9.54   MAIN                                                                  03/14/2024 21:04:44 PAGE 1   
+
+
+C51 COMPILER V9.54, COMPILATION OF MODULE MAIN
+OBJECT MODULE PLACED IN .\Objects\main.obj
+COMPILER INVOKED BY: D:\Keil5C51\C51\BIN\C51.EXE main.c OPTIMIZE(8,SPEED) BROWSE DEBUG OBJECTEXTEND PRINT(.\Listings\mai
+                    -n.lst) TABS(2) OBJECT(.\Objects\main.obj)
+
+line level    source
+
+   1          #include <REGX52.H>
+   2          
+   3          // 点亮一个 LED
+   4          void main() {
+   5   1        /* 
+   6   1        软件环境：Keil 5.14.1，SCT-ISP 6.93
+   7   1        单片机：普中 A2
+   8   1        芯片型号：STC89C52RC
+   9   1        扫描串口：USB-SERAL CH340（COM3）
+  10   1        视频教程：51 单片机入门教程（B 站江科大自化协，现改名江协科技）
+  11   1        
+  12   1        P2(P21~P28) 8 位寄存器对于 D1~D8 8 个 LED 灯
+  13   1        
+  14   1        十进制 | 二进制 | 十六进制
+  15   1        0      | 0000   | 0
+  16   1        1      | 0001   | 1
+  17   1        2      | 0010   | 2
+  18   1        3      | 0011   | 3
+  19   1        4      | 0100   | 4
+  20   1        5      | 0101   | 5
+  21   1        6      | 0110   | 6
+  22   1        7      | 0111   | 7
+  23   1        8      | 1000   | 8
+  24   1        9      | 1001   | 9
+  25   1        10     | 1010   | 10
+  26   1        11     | 1011   | 11
+  27   1        11     | 1100   | 12
+  28   1        13     | 1101   | 13
+  29   1        14     | 1110   | 14
+  30   1        15     | 1111   | 15
+  31   1        */
+  32   1        P2 = 0xFE; // 1111 1110 -> 只有 D1 LED 灯亮
+  33   1       } 
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =      4    ----
+   CONSTANT SIZE    =   ----    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =   ----    ----
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)

@@ -1,0 +1,95 @@
+C51 COMPILER V9.54   MAIN                                                                  03/14/2024 20:44:02 PAGE 1   
+
+
+C51 COMPILER V9.54, COMPILATION OF MODULE MAIN
+OBJECT MODULE PLACED IN .\Objects\main.obj
+COMPILER INVOKED BY: D:\Keil5C51\C51\BIN\C51.EXE main.c OPTIMIZE(8,SPEED) BROWSE DEBUG OBJECTEXTEND PRINT(.\Listings\mai
+                    -n.lst) TABS(2) OBJECT(.\Objects\main.obj)
+
+line level    source
+
+   1          #include <REGX52.H>
+   2          
+   3          // 延时 1 毫秒
+   4          void Delayms(unsigned int xms) {  //@12.000MHz
+   5   1        unsigned char data i, j;
+   6   1        while(xms --) {
+   7   2          i = 2;
+   8   2          j = 239;
+   9   2          do {
+  10   3            while (--j);
+  11   3          } while (--i);
+  12   2        }
+  13   1      }
+  14          
+  15          // 寄存器 8 位变量
+  16          unsigned char LEDNum;
+  17          
+  18          void main() {
+  19   1        /* 独立按键控制 LED 移位
+  20   1        0000 0001 -> 0x01<<0
+  21   1        0000 0010 -> 0x01<<1
+  22   1        0000 0100 -> 0x01<<2
+  23   1        0001 0000 -> 0x01<<3
+  24   1        0010 0000 -> 0x01<<4
+  25   1        0100 0000 -> 0x01<<5
+  26   1        1000 0000 -> 0x01<<6 
+  27   1        */
+  28   1        P2 = ~0x01; // 上电 D1 灯亮
+  29   1        while (1) {
+  30   2          // 判断 K1 按钮是否按住
+  31   2          if (P3_1 == 0) {
+  32   3            // 按键消抖
+  33   3            Delayms(20);
+  34   3            // 检测松手
+  35   3            while(P3_1 == 0);
+  36   3            // 按键消抖
+  37   3            Delayms(20);
+  38   3            
+  39   3            // +1 移位一次
+  40   3            LEDNum ++;
+  41   3            // 重新回到初始状态
+  42   3            if (LEDNum >= 8) LEDNum = 0;
+  43   3            
+  44   3            // 反向逻辑，给 1 灭，给 0 亮
+  45   3            P2 = ~(0x01<<LEDNum);
+  46   3          }
+  47   2          
+  48   2          // 判断 K2 按钮是否按住
+  49   2          if (P3_0 == 0) {
+  50   3            // 按键消抖
+  51   3            Delayms(20);
+  52   3            // 检测松手
+  53   3            while(P3_0 == 0);
+  54   3            // 按键消抖
+C51 COMPILER V9.54   MAIN                                                                  03/14/2024 20:44:02 PAGE 2   
+
+  55   3            Delayms(20);
+  56   3            
+  57   3            // 越界判断
+  58   3            if (LEDNum == 0) {
+  59   4              LEDNum = 7;
+  60   4            } else {
+  61   4              // -1 移位一次
+  62   4              LEDNum --;
+  63   4            }
+  64   3            
+  65   3            // 反向逻辑，给 1 灭，给 0 亮
+  66   3            P2 = ~(0x01<<LEDNum);
+  67   3          }
+  68   2        }
+  69   1      }
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =    109    ----
+   CONSTANT SIZE    =   ----    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =      1    ----
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)

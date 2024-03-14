@@ -1,0 +1,44 @@
+C51 COMPILER V9.54   MAIN                                                                  03/14/2024 20:51:51 PAGE 1   
+
+
+C51 COMPILER V9.54, COMPILATION OF MODULE MAIN
+OBJECT MODULE PLACED IN .\Objects\main.obj
+COMPILER INVOKED BY: D:\Keil5C51\C51\BIN\C51.EXE main.c OPTIMIZE(8,SPEED) BROWSE DEBUG OBJECTEXTEND PRINT(.\Listings\mai
+                    -n.lst) TABS(2) OBJECT(.\Objects\main.obj)
+
+line level    source
+
+   1          #include <REGX52.H>
+   2          
+   3          void main() {
+   4   1        /*
+   5   1        按位左移： 0011 1100<<1          -> 0111 1000
+   6   1        按位右移:  0011 1100>>2          -> 0000 1111
+   7   1        按位与:    0001 1000 & 0010 1010 -> 0000 1000
+   8   1        按位或:    0001 1000 | 0010 1010 -> 0011 1010
+   9   1        按位异或:  0001 1000 ^ 0010 1010 -> 0011 0010
+  10   1        按位取反: ~0001 1000             -> 1001 0111
+  11   1        */
+  12   1        while (1) {
+  13   2          //  独立按键控制 LED 亮灭
+  14   2          if (P3_1 == 0 && P3_0 == 0) {
+  15   3            P2_0 = 0;
+  16   3          } else {
+  17   3            P2_0 = 1;
+  18   3          }
+  19   2        }
+  20   1      }
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =     14    ----
+   CONSTANT SIZE    =   ----    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =   ----    ----
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)
