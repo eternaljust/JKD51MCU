@@ -1,0 +1,122 @@
+C51 COMPILER V9.54   MAIN                                                                  03/16/2024 21:28:09 PAGE 1   
+
+
+C51 COMPILER V9.54, COMPILATION OF MODULE MAIN
+OBJECT MODULE PLACED IN .\Objects\main.obj
+COMPILER INVOKED BY: D:\Keil5C51\C51\BIN\C51.EXE main.c OPTIMIZE(8,SPEED) BROWSE DEBUG OBJECTEXTEND PRINT(.\Listings\mai
+                    -n.lst) TABS(2) OBJECT(.\Objects\main.obj)
+
+line level    source
+
+   1          #include <REGX52.H>
+   2          
+   3          // 延时 1 毫秒
+   4          void Delayms(unsigned int xms) {  //@12.000MHz
+   5   1        unsigned char data i, j;
+   6   1        while(xms --) {
+   7   2          i = 2;
+   8   2          j = 239;
+   9   2          do {
+  10   3            while (--j);
+  11   3          } while (--i);
+  12   2        }
+  13   1      }
+  14          
+  15          /*
+  16          * 数码管数字：0 1 2 3 4 5 6 7 8 9
+  17          * COM 显示顺序：dp g f e d c b a
+  18          * 0：a1 b1 c1 d1 e1 f1 g0 dp0 -> 0011 1111 -> 0x3F
+  19          * 1: a0 b1 c1 d0 e0 f0 g0 dp0 -> 0000 0110 -> 0x06
+  20          * 2: a1 b1 c0 d1 e1 f0 g1 dp0 -> 0101 1011 -> 0x5B
+  21          * 3: a1 b1 c1 d1 e0 f0 g1 dp0 -> 0100 1111 -> 0x4F
+  22          * 4: a0 b1 c1 d0 e0 f1 g1 dp0 -> 0110 0110 -> 0x66
+  23          * 5: a1 b0 c1 d1 e0 f1 g1 dp0 -> 0110 1101 -> 0x6D
+  24          * 6: a1 b0 c1 d1 e1 f1 g1 dp0 -> 0111 1101 -> 0x7D
+  25          * 7: a1 b1 c1 d0 e0 f0 g0 dp0 -> 0000 0111 -> 0x07
+  26          * 8: a1 b1 c1 d1 e1 f1 g1 dp0 -> 0111 1111 -> 0x7F
+  27          * 9: a1 b1 c1 d1 e0 f1 g1 dp0 -> 0110 1111 -> 0x6F
+  28          */
+  29          unsigned char nixieTable[] = {0x3F, 0x06, 0x5B, 0x4F, 0x66, 0x6D, 0x7D, 0x07, 0x7F, 0x6F};
+  30          
+  31          /* 
+  32          * 数码管从左往右位置 1~8 显示数字 0~9
+  33          * 实际管位：LED8 LED7 LED6 LED5 LED4 LED3 LED2 LED1
+  34          */
+  35          void nixie(unsigned char location, number) {
+  36   1        switch (location) {
+  37   2          case 1: P2_4 =1; P2_3 = 1; P2_2 = 1; break;
+  38   2          case 2: P2_4 =1; P2_3 = 1; P2_2 = 0; break;
+  39   2          case 3: P2_4 =1; P2_3 = 0; P2_2 = 1; break;
+  40   2          case 4: P2_4 =1; P2_3 = 0; P2_2 = 0; break;
+  41   2          case 5: P2_4 =0; P2_3 = 1; P2_2 = 1; break;
+  42   2          case 6: P2_4 =0; P2_3 = 1; P2_2 = 0; break;
+  43   2          case 7: P2_4 =0; P2_3 = 0; P2_2 = 1; break;
+  44   2          case 8: P2_4 =0; P2_3 = 0; P2_2 = 0; break;
+  45   2        }
+  46   1        
+  47   1        P0 = nixieTable[number];
+  48   1        
+  49   1        /* 
+  50   1          数码管消影：[位选 段选] [位选 段选] [位选 段选]
+  51   1          过程：
+  52   1          1.首先先选择位（第几个 LED），然后再显示段（数据 -> 数字）
+  53   1          2.重复第一步，再重复第一步
+  54   1          3.因为单片机速度很快，中间就会出现问题(位选 [段选 位选] 段选)，在选中下一个位选的这个时刻，
+C51 COMPILER V9.54   MAIN                                                                  03/16/2024 21:28:09 PAGE 2   
+
+  55   1          很短的时刻内，上一个数据就会串到下一位数据里面去，因为两者紧挨在一起，需要清零。
+  56   1          4.清零让数据不要串位：位选 段选 [清零] 位选 段选
+  57   1        */
+  58   1      
+  59   1        // 稳定显示，如果立马清零，数码管就会变暗
+  60   1        Delayms(1);
+  61   1        // 清零
+  62   1        P0 = 0x00;
+  63   1      }
+  64          
+  65          // 动态数码管显示
+  66          void main() {
+  67   1        /*
+  68   1          74HC138 译码器：
+  69   1          输入:   P24(C)P23(B)P22(A) (000~111 -> 0~7) ↓ 
+  70   1          输出：  Y0   Y1   Y2   Y3   Y4   Y5   Y6   Y7 (1~8) ↓
+  71   1          数码管: LED1 LED2 LED3 LED4 LED5 LED6 LED7 LED8
+  72   1          */
+  73   1          
+  74   1          /*
+  75   1          74HC245 模块：
+  76   1          P0 寄存器 (P00~P07) -> (dp g f e d c b a)
+  77   1          COM:
+  78   1            __a__
+  79   1           |     |
+  80   1          f|     |b
+  81   1           |__g__|
+  82   1           |     |
+  83   1          e|     |c
+  84   1           |__d__|.dp
+  85   1          _
+  86   1          */
+  87   1        while (1) {
+  88   2          // 从左往右第 1 个数码管显示数字 1
+  89   2          nixie(1, 1);
+  90   2          // Delayms(20);
+  91   2          nixie(2, 2);
+  92   2          // Delayms(20);
+  93   2          nixie(3, 3);
+  94   2          // Delayms(20);
+  95   2        }
+  96   1      }
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =    159    ----
+   CONSTANT SIZE    =   ----    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =     10    ----
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)
