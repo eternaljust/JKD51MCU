@@ -31,3 +31,8 @@
 
 1. [静态数码管显示](/chapter4/4-1-static-nixie-tube-display/)
 2. [动态数码管显示](/chapter4/4-2-dynamic-nixie-tube-display/)
+
+### 章节五
+
+1. [模块化编程](/chapter5/5-1-modular-programming/)
+2. [LCD1602 调试工具](/chapter5/5-2-lcd1602-debug-tool/)
