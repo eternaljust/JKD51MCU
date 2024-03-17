@@ -1,4 +1,4 @@
-C51 COMPILER V9.54   MAIN                                                                  03/16/2024 21:20:42 PAGE 1   
+C51 COMPILER V9.54   MAIN                                                                  03/17/2024 09:07:34 PAGE 1   
 
 
 C51 COMPILER V9.54, COMPILATION OF MODULE MAIN
@@ -12,7 +12,7 @@ line level    source
    2          
    3          /*
    4          * ÊýÂë¹ÜÊý×Ö£º0 1 2 3 4 5 6 7 8 9
-   5          * COM ÏÔÊ¾Ë³Ðò£ºdp g f e d c b a
+   5          * nixie ÏÔÊ¾Ë³Ðò£ºdp g f e d c b a
    6          * 0£ºa1 b1 c1 d1 e1 f1 g0 dp0 -> 0011 1111 -> 0x3F
    7          * 1: a0 b1 c1 d0 e0 f0 g0 dp0 -> 0000 0110 -> 0x06
    8          * 2: a1 b1 c0 d1 e1 f0 g1 dp0 -> 0101 1011 -> 0x5B
@@ -57,12 +57,12 @@ line level    source
   47   1          /*
   48   1          74HC245 Ä£¿é£º
   49   1          P0 ¼Ä´æÆ÷ (P00~P07) -> (dp g f e d c b a)
-  50   1          COM:
+  50   1          nixie:
   51   1            __a__
   52   1           |     |
   53   1          f|     |b
   54   1           |__g__|
-C51 COMPILER V9.54   MAIN                                                                  03/16/2024 21:20:42 PAGE 2   
+C51 COMPILER V9.54   MAIN                                                                  03/17/2024 09:07:34 PAGE 2   
 
   55   1           |     |
   56   1          e|     |c

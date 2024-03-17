@@ -14,7 +14,7 @@ void Delayms(unsigned int xms) {	//@12.000MHz
 
 /*
 * 数码管数字：0 1 2 3 4 5 6 7 8 9
-* COM 显示顺序：dp g f e d c b a
+* nixie 显示顺序：dp g f e d c b a
 * 0：a1 b1 c1 d1 e1 f1 g0 dp0 -> 0011 1111 -> 0x3F
 * 1: a0 b1 c1 d0 e0 f0 g0 dp0 -> 0000 0110 -> 0x06
 * 2: a1 b1 c0 d1 e1 f0 g1 dp0 -> 0101 1011 -> 0x5B
@@ -73,8 +73,8 @@ void main() {
 		
 		/*
 		74HC245 模块：
-		P0 寄存器 (P00~P07) -> (dp g f e d c b a)
-		COM:
+		P0 寄存器 (P00~P07) -> (dp g f e d c b a) 数据高位对端口高位
+		nixe:
 		  __a__
 		 |     |
 		f|     |b
